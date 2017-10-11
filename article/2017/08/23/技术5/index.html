@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>Devin&#39;s Blog</title>
+    <link rel="icon" href="/assets/image/logo.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+    <body>
+        <header class="header">
+    <div class="wrapper">
+        <a class="phone-menu">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+        </a>
+        <div class="blog-logo">
+            <a href="/"><img src="/assets/image/logo.png" class="logo"><span class="color">D</span>evin's Blog</a>
+        </div>
+        <nav class="navbar">
+            <ul class="menu">
+            
+                <li>
+                <a href="/" class="">首页</a>
+                </li>
+            
+                <li>
+                <a href="/archives/" class="">归档</a>
+                </li>
+            
+                <li>
+                <a href="/life/" class="">近况</a>
+                </li>
+            
+                <li>
+                <a href="/about/" class="">关于</a>
+                </li>
+            
+                <li>
+                <a href="#search" class="">搜索</a>
+                </li>
+            
+            </ul>
+        </nav>
+        <div class="clearfix"></div>
+    </div>
+    <ul class="nav-phone">
+        
+            <li class="">
+                <a href="/" >首页</a>
+            </li>
+        
+            <li class="">
+                <a href="/archives/" >归档</a>
+            </li>
+        
+            <li class="">
+                <a href="/life/" >近况</a>
+            </li>
+        
+            <li class="">
+                <a href="/about/" >关于</a>
+            </li>
+        
+            <li class="">
+                <a href="#search" >搜索</a>
+            </li>
+        
+    </ul>
+</header>
+
+        <main class="main fade">
+            
+<div class="left-wrap">
+    <article class="post">
+        <div class="post-title">
+            <h2 class="title">JavaScript之原型链的解读</h2>
+        </div>
+        <div class="post-meta">
+            <span class="post-time"><i class="fa fa-calendar-o" aria-hidden="true"></i>发布于<span class="timer">2017-08-23</span></span>
+            <span>|</span>
+            <span class="post-category"><i class="fa fa-folder-o" aria-hidden="true"></i>分类于"JavaScript基础"</span>
+            <span class="views-comment">|</span>
+            <span class="post-comment views-comment"><i class="fa fa-comment-o" aria-hidden="true"></i><span>评论(<span id = "sourceId::JavaScript之原型链的解读-2017-08-23-08:53" class = "cy_cmt_count" ></span>)</span></span>
+            <span class="views-comment">|</span>
+            <span class="post-read views-read"><i class="fa fa-eye" aria-hidden="true"></i>热度(<span data-id="JavaScript之原型链的解读-2017-08-23-08:53" data-title="JavaScript之原型链的解读" class="viewsReading">正在载入...</span>)</span>
+            <span class="views-read">|</span>
+            <span class="views-comment"><a href="#comment">#跳到评论#</a></span>
+        </div>
+        <div class="post-content">
+            <p>在<code>JavaScript</code>中，原型链作为一个基础，老生长谈，今天我们就来深入的解读一下原型链。</p>
+<p>本章主要讲的是下面几点，可以根据需要进行阅读：</p>
+<ul>
+<li>函数与对象</li>
+<li>对于<code>prototype</code>的认识</li>
+<li>对于<code>__proto__</code>的的认识</li>
+<li><code>prototype</code>和<code>__proto__</code>的关系</li>
+<li><code>instanceof</code>操作符到底是怎么穿梭的</li>
+<li><code>[[prototype]]</code>链属性的访问</li>
+<li><code>[[prototype]]</code>链上的属性设置与属性屏蔽</li>
+<li>关于<code>prototype</code>中的<code>constructor</code>属性<a id="more"></a></li>
+<li>当我们在使用<code>new</code>的时候到底发生了什么</li>
+<li>应用：两种继承的设计模式</li>
+<li>函数与对象到底是什么关系</li>
+</ul>
+<h3 id="1-函数与对象"><a href="#1-函数与对象" class="headerlink" title="1. 函数与对象"></a>1. 函数与对象</h3><p>我们都知道，<code>JavaScript</code>中，一切都是对象，函数也是对象，数组也是对象，但是数组是对象的子集，而对于函数来说，函数与对象之间有一种“鸡生蛋蛋生鸡”的关系，这两者之间的关系是很难说清楚的，最后我们会详细的去总结它。</p>
+<blockquote>
+<ol>
+<li>所有的对象<b>都是</b>由<code>Object</code>继承而来，而<code>Object</code>对象却是一个函数。</li>
+<li>对象<b>都是</b>由函数来创建的。</li>
+</ol>
+</blockquote>
+<p>对于上述的第一点，前半部分会在后面的解释中讲到，而对于后半部分，在控制台中输入<code>typeof Object</code>，显然输出的是<code>function</code>。</p>
+<p>上述的第二点，我们可以看一下下面的例子。</p>
+<pre><code>var obj = { a: 1, b: 2}
+var arr = [2, &#39;foo&#39;, false]
+</code></pre><p>表面上来看，好像不存在函数创建对象，而实际上，以上的过程是这样子的：</p>
+<pre><code>var obj = new Object()
+obj.a = 1
+obj.b = 2
+
+var arr = new Array()
+arr[0] = 2
+arr[1] = &#39;foo&#39;
+arr[2] = false
+//typeof Object === &#39;function&#39;  
+//typeof Array === &#39;function&#39;
+</code></pre><h3 id="2-对于prototype的认识"><a href="#2-对于prototype的认识" class="headerlink" title="2. 对于prototype的认识"></a>2. 对于<code>prototype</code>的认识</h3><p>每一个<b>函数</b>都有一个属性叫做<code>prototype</code>，它的属性值是一个对象，在这个对象中默认有一个<code>constructor</code>属性，指向这个函数的本身。如下图：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5376626-d59e64eda47f78a8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5376626-a40d4c9cce6f698f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="3-对于-proto-的的认识"><a href="#3-对于-proto-的的认识" class="headerlink" title="3. 对于__proto__的的认识"></a>3. 对于<code>__proto__</code>的的认识</h3><p><code>__proto__</code>是隐式原型，通常也写作<code>[[prototype]]</code>每一个<b>对象</b>都有一个这样的隐藏属性，<b>它引用了创建这个对象的函数的<code>prototype</code>。</b>（注：并不是所有浏览器都实现了对于对象的隐式原型的提供！）</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5376626-db39bff123997686.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>需要注意的是，函数也是对象，自然它也有<code>__proto__</code>。</p>
+<p>可见，<code>__proto__</code>和<code>prototype</code>并不相同（有例外，存在指向相同的情况），那两者有什么样的联系呢，继续往下看。</p>
+<h3 id="4-prototype和-proto-的关系"><a href="#4-prototype和-proto-的关系" class="headerlink" title="4. prototype和__proto__的关系"></a>4. <code>prototype</code>和<code>__proto__</code>的关系</h3><p>前面我们讲到了两个很重要的点：</p>
+<blockquote>
+<ol>
+<li>每一个<b>函数</b>都有一个属性叫做<code>prototype</code>，它的属性值是一个对象。</li>
+<li>每一个<b>对象</b>都有一个隐式原型<code>__proto__</code>，它引用了创建这个对象的函数的<code>prototype</code>。</li>
+</ol>
+</blockquote>
+<p>所以，下面让我们来看一段代码看看两者之间的关系：</p>
+<pre><code>var o1 = new Object()
+var o2 = new Object()
+</code></pre><p>上面的<code>Object</code>作为构造函数创建了两个对象<code>o1</code>和<code>o2</code>。</p>
+<p>看一下图解：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5376626-beef72dd5978da16.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>结合上面的两句话：</p>
+<ol>
+<li><code>function Object</code>在这里作为一个构造函数，毫无疑问它是一个函数，那么自然有一个<code>prototype</code>属性。</li>
+<li><code>__proto__</code>引用了创建这个对象的函数的<code>prototype</code>。于是，<code>o1</code>和<code>o2</code>对象都是由<code>function Object</code> 创建出来的，那么自然的，它就指向（引用）了创建它们的函数(<code>Object</code>)的<code>prototype</code>属性。</li>
+</ol>
+<p>那我们再来看如果是一个普通的构造函数而不是内置的呢？一样的道理，这里我们就不再赘述。</p>
+<pre><code>function foo() {}
+var f1 = new foo()
+var f2 = new foo()
+</code></pre><p><img src="http://upload-images.jianshu.io/upload_images/5376626-2dc8bbfe17da7c57.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><b>注意：这里有一个特例！</b><br>对于<code>Object.prototype</code>来说，它的<code>__proto__</code>是<code>null</code>，这是一个<b>特例。</b></p>
+<p>同时，我们要注意图里面有一个<code>Foo.prototype</code>，它的<code>__proto__</code>指向了<code>Object.prototype</code>。这个是因为：<b>一切的对象都是由<code>Object</code>继承而来</b>，也就是说<code>Foo.prototype</code>这个对象也是由<code>Object</code>构造的，所以说<code>Foo.prototype.__proto__</code>指向（引用）了<code>Object.prototype</code>，这个也符合我们上面所述的<b>每一个<b>对象</b>都有一个隐式原型<code>__proto__</code>，它引用了创建这个对象的函数的<code>prototype</code></b>。</p>
+<p>到这里，似乎<code>prototype</code>和<code>__proto__</code>关系已经很明朗的，但是你有没有发现还有一个坑，我们从头到尾都在围绕<code>function Object()</code>这个东西，那我们会不会考虑🤔这个鬼东西是从哪里来的呢？</p>
+<p>难道凭空出现？显然，不存在的！毕竟，存在即合理。</p>
+<p>那函数是怎么创建出来的呢？我们继续来看一段代码，这段代码可能你很少见，但是如果你读过红宝书函数的一章，你一定不会感到陌生！</p>
+<pre><code>function foo(a, b) {
+  return a + b
+}
+console.log(foo(1, 2)) //3
+
+var boo = new Function(&#39;a&#39;, &#39;b&#39;, &#39;return a + b&#39;) //Function大写
+console.log(boo(1,2)) //3
+</code></pre><p>以上，第二种写法出现了大写的<code>Function</code>。（不推荐这么写。因为这是一种创建动态函数的写法，原因参考：<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank" rel="external">https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function</a> ）</p>
+<p>从上面的代码可知，函数是被<code>Function</code>创建的。</p>
+<p>所以，<code>function Object</code>是由<code>Function</code>创建的，那么<code>Object.__proto === Function.prototype</code>也就不言而喻了，于是就有下面的一张图。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5376626-17cf9135fef993d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>在这张图中，<code>Foo</code>和<code>Object</code>这两个函数的<code>__proto__</code>就是指向<code>Function.prototype</code>了。</p>
+<p>这里又有一个<b>特例</b>！（相信我，这是最后一个特例了🙄~）</p>
+<p>没错，你会发现一个坑？为什么<code>Function.__proto__</code>指向了<code>Function.prototype</code>🤔？这又是什么操作？</p>
+<p>我们来理一下思路：函数是由<code>Function</code>创建的，那么<code>Function</code>也是一个函数，那么它有没有可能是自己搞自己的呢😎？</p>
+<p>答案是肯定的。</p>
+<p>于是，函数是由<code>Function</code>创建的，那么<code>Function</code>由自身创建，所以<code>Function.__proto__</code>就指向了创建它的函数（也就是自己）的<code>prototype</code>。</p>
+<p>那最后，把<code>Foo.prototype</code>、<code>Object.prototype</code>、<code>Function.prototype</code>的<code>__proto__</code>连起来，就可以得到下面这一张图。（红色标识即为特例）</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5376626-8f56be1cb904b5e9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>最后，再次总结一下：</p>
+<ul>
+<li>所有的对象<b>都是</b>由<code>Object</code>继承而来，对象<b>都是</b>由函数来创建的。</li>
+<li>每一个<b>函数</b>都有一个属性叫做<code>prototype</code>，它的属性值是一个对象。</li>
+<li>每一个<b>对象</b>都有一个隐式原型<code>__proto__</code>，它引用了创建这个对象的函数的<code>prototype</code>。</li>
+</ul>
+<h3 id="5-instanceof操作符到底是怎么穿梭的"><a href="#5-instanceof操作符到底是怎么穿梭的" class="headerlink" title="5. instanceof操作符到底是怎么穿梭的"></a>5. <code>instanceof</code>操作符到底是怎么穿梭的</h3><p>既然讲到了<code>__proto__</code>和<code>prototype</code>，那么密不可分的就是<code>instanceof</code>操作符了。</p>
+<blockquote>
+<p>对于 <code>A instanceof B</code>来说，它的判断规则是：沿着<code>A</code>的<code>__proto__</code>这条线来找，同时沿着B的<code>prototype</code>这条线来找，如果两条线能找到同一个引用，即同一个对象，那么就返回<code>true</code>。如果找到终点还未重合，则返回<code>false</code>。</p>
+</blockquote>
+<p>所以，不熟悉的🙊就可以通过上面的那个总图来进行判断到底是返回<code>true</code>还是<code>false</code>。</p>
+<p>那么，我们来举个🌰：</p>
+<pre><code>function fn() {}
+var f1 = new fn();
+console.log(f1 instanceof Object);//true
+console.log(f1 instanceof fn);//true
+</code></pre><p>显然，沿着链条穿梭成立！</p>
+<p>再来看几个喜闻乐见的：</p>
+<pre><code>console.log(Object instanceof Function);//true
+console.log(Function instanceof Object);//true
+console.log(Function instanceof Funciton);//true
+</code></pre><p>所以，<code>instanceof</code>操作符机制就不言而喻了。</p>
+<h3 id="6-prototype-链属性的访问"><a href="#6-prototype-链属性的访问" class="headerlink" title="6. [[prototype]]链属性的访问"></a>6. <code>[[prototype]]</code>链属性的访问</h3><p>众所周知，<code>JavaScript</code>中的继承是通过<code>[[prototype]]</code>链来实现的（也叫原型链）。</p>
+<p>看下面代码：</p>
+<pre><code>function foo (){}
+var f1 = new foo()
+f1.a = 10
+
+foo.prototype.a=1
+foo.prototype.b=2
+
+console.log(f1.a) //10
+console.log(f1.b) //2
+console.log(f1.c) // undefined
+</code></pre><blockquote>
+<p>访问一个对象的属性时，先在这个对象自身属性中查找，如果没有，再沿着<code>__proto__</code>这条链向上找，这就是<code>[[prototype]]</code>链（原型链），如果一直找不到，那么最后会返回<code>undefined</code>。</p>
+</blockquote>
+<p>那如何区分这个属性是实例对象中的（比如说上面<code>new</code>出来的对象<code>f1</code>）还是通过<code>[[prototype]]</code>链找到的呢？</p>
+<p>答案就是<code>hasOwnProperty</code>，同时，在<code>for...in</code>循环中，要注意该遍历会遍历出包括原型的所有属性。</p>
+<p>我们可以对上面代码的<code>a</code>和<code>b</code>进行检测：</p>
+<pre><code>function foo (){}
+var f1 = new foo()
+f1.a = 10
+
+foo.prototype.a=1
+foo.prototype.b=2
+
+console.log(f1.a)//10
+console.log(f1.b)//2
+
+console.log(f1.hasOwnProperty(&#39;a&#39;)) //true
+console.log(f1.hasOwnProperty(&#39;b&#39;)) //false
+</code></pre><p>在这里，本身<code>f1</code>是没有<code>hasOwnProperty</code>方法的，并且，<code>foo.prototype</code>也是没有的。那其实它是从<code>Object.prototype</code>中继承而来的。可见，<b><code>[[prototype]]</code>链最终的位置就是<code>Object.prototype</code></b>。以下是<code>Object.prototype</code>的一些属性和方法。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5376626-96439fdbea677924.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="7-prototype-链上的属性设置与属性屏蔽"><a href="#7-prototype-链上的属性设置与属性屏蔽" class="headerlink" title="7. [[prototype]]链上的属性设置与属性屏蔽"></a>7. <code>[[prototype]]</code>链上的属性设置与属性屏蔽</h3><p>先来看一下这段代码：</p>
+<pre><code>var parentObject = {
+  a: 1,
+  b: 2
+};
+var childObject = {};
+console.log(childObject); // &gt; Object {}
+
+childObject.__proto__ = parentObject;
+console.log(childObject); // &gt; Object {}
+childObject.c = 3;
+childObject.a = 2;
+console.log(parentObject); // Object {a: 1, b: 2}
+console.log(childObject); // &gt; Object {c: 3, a: 2}
+</code></pre><p>这是一个很简单的属性设置，但是其实里面存在着<code>[[prototype]]</code>链属性设置的机制🙃。</p>
+<p>如下：</p>
+<ul>
+<li>如果属性<code>c</code>不是直接存于<code>childObject</code>上，<code>[[Prototype]]</code>链就会被遍历，如果<code>[[Prototype]]</code>链上找不到<code>c</code>，<code>c</code>这时就会被直接添加到<code>childObject</code>上。</li>
+<li>如果这时属性<code>a</code>存在于原型链上层而不存在于<code>childObject</code>中，赋值语句<code>childObject.a = 2</code>却不会修改到<code>parentObjec</code>t中的<code>a</code>，而是直接把<code>a</code>作为一个新属性添加到了<code>childObject</code>上。</li>
+</ul>
+<p>于此同时，也就发生了属性屏蔽😭。</p>
+<p>此时会发现，赋值完了以后，<code>parentObject</code>的<code>a</code>属性没有被修改，而<code>childObject</code>中新增了一个<code>a</code>属性，所以现在就会出现一个问题，<code>parentObject</code>的<code>a</code>属性再也不能通过<code>childObject.a</code>的方式被访问到了。</p>
+<p>在这里，就发生了属性屏蔽，<code>childObject</code>中包含的<code>a</code>属性会屏蔽原型链上层所有的<code>a</code>属性，因为<code>childObject.a</code>总会选择原型链中最底层的<code>a</code>属性。</p>
+<p>但实际上，屏蔽比我们想象中的更复杂。下面我们一起来分析一下<code>a</code>不直接存在于<code>childObject</code>中，而是存在于原型链上层时， 执行<code>childObject.a = 2</code>语句会出现的三种情况。</p>
+<ol>
+<li><p>如果在<code>[[Prototype]]</code>链上层存在名为<code>a</code>的普通数据访问属性，并且没有被标记为只读(<code>writable: false</code>)，那就会直接在<code>childObject</code>中添加一个名为<code>a</code>的新属性，它是屏蔽属性，这个情况就是上文例子中发生的情况。</p>
+</li>
+<li><p>如果在<code>[[Prototype]]</code>链上层存在<code>a</code>，但它被标记为只读(<code>writable: true</code>)，那么无法修改已有属性或者在<code>childObject</code>上创建屏蔽属性，严格模式下执行这个操作还会抛出错误。</p>
+<pre><code> var parentObject = {};  
+ Object.defineProperty(parentObject, &quot;a&quot;, {
+     value: 2,
+     writable: false, // 标记为不可写
+     enumerable: true //可遍历
+ });
+ var childObject = {
+     b: 3
+ };
+ childObject.__proto__ = parentObject; // 绑定原型
+ childObject.a = 10;
+ console.log(childObject.a);  // 2
+ console.log(childObject);  // &gt; Object {b: 3}
+ console.log(parentObject); // Object {a: 2}
+</code></pre></li>
+<li><p>如果在<code>[[Prototype]]</code>链上层存在<code>a</code>并且它被定义成了一个<code>setter</code>函数，那就一定会调用这个<code>setter</code>函数。<code>a</code>不会被添加到<code>childObject</code>，上层的<code>setter</code>也不会被重新定义。</p>
+<pre><code> var parentObject = {
+     set a(val) { //这是set函数，相当于赋值
+       this.aaaaaa = val * 2;
+     }
+ };
+ var childObject = {
+     b: 3
+ };
+ childObject.__proto__ = parentObject;
+ childObject.a = 10;
+ console.log(childObject); //Object {b: 3, aaaaaa: 20}
+ console.log(parentObject); //Object {}
+</code></pre></li>
+</ol>
+<p>另外，属性屏蔽还有一种很容易被忽略的情况😩：</p>
+<pre><code>var parentObject = {
+    a: 2
+};
+
+var childObject = Object.create( parentObject ); 
+// 这句话相当于先定义一个空对象，再绑定原型
+console.log(parentObject.a); // 2
+console.log(childObject.a); // 2
+console.log(parentObject.hasOwnProperty(&#39;a&#39;)); // true
+console.log(childObject.hasOwnProperty(&#39;a&#39;)); // false
+console.log(parentObject); // &gt; Object {a:2}
+
+childObject.a++;  // 这时候迭加的应是原型链上parentObject的a
+
+console.log(parentObject.a); // 2
+console.log(childObject) // &gt; Object { a: 3 }
+console.log(childObject.a); // 3
+
+console.log(childObject.hasOwnProperty(&#39;a&#39;)); // true
+</code></pre><p><code>childObject.a</code>访问的应是<code>parentObject</code>上的<code>a</code>属性，然而执行迭加后却产生了上面这个结果，原型链上的<code>a</code>并没有被修改到。 原因就是，在执行<code>childObject.a++</code>时，发生了隐式的属性屏蔽，因为<code>childObject.a++</code>实际上就相当于<code>childObject.a = childObject.a + 1</code>。</p>
+<h3 id="8-关于prototype中的constructor属性"><a href="#8-关于prototype中的constructor属性" class="headerlink" title="8. 关于prototype中的constructor属性"></a>8. 关于<code>prototype</code>中的<code>constructor</code>属性</h3><p>上面有介绍说到<code>constructor</code>是函数原型的一个属性，指向函数的本身。</p>
+<pre><code>function Foo() {
+  this.name = &#39;dog&#39;;
+}
+
+Foo.prototype.constructor === Foo; // true
+
+var a = new Foo(); 
+a.constructor === Foo; // true
+</code></pre><p>当<code>a.constructor === Foo</code>的时候，其实这时候并不能够说明<code>a</code>是由<code>Foo</code>构造而成的。实际上，<code>a.constructor</code>的引用是被委托给了<code>Foo.prototype</code>（本身<code>a</code>自身是没有这个属性的），所以才会出现等价的情况，而并不能说明<code>a</code>是由<code>Foo</code>构造而成的。</p>
+<p>而对于<code>constructor</code>来说，这个属性其实就是<code>[[prototype]]</code>上一个简单的默认属性，没有<code>writable:false</code>也不是<code>setter</code>，只是有一个默认行为。</p>
+<p>继续看下面的代码：</p>
+<pre><code>function Foo() {
+  this.name = &#39;dog&#39;;
+}
+Foo.prototype = {
+  h: &#39;hhh&#39;
+};
+
+var a1 = new Foo();
+
+a1.constructor === Foo; // false
+a1.constructor === Object; // true
+
+a1 instanceof Foo //true
+</code></pre><p>这里由于<code>Foo.prototype</code>的默认属性被清空了，所以<code>constructor</code>不存在，可是<code>__proto__</code>构成的原型链是不变的，所以<code>a1.constructor</code>的引用被委托到<code>Object.prototype.constructor</code>，所以第一个返回<code>false</code>，第二个返回<code>true</code>。</p>
+<p>所以，我们应该怎么对待<code>constructor</code>这个属性呢😶？</p>
+<p>它并不是什么神秘的属性，<code>Foo.prototype</code>的<code>constructor</code>属性只是<code>Foo</code>函数在声明时的默认属性。一定程度上可以用<code>.constructor</code>来判断原型指向，但它并不安全，除了有这个默认行为之外，<b>它和我们平常自定义的属性，再也没什么区别了。</b></p>
+<h3 id="9-当我们在使用new的时候到底发生了什么"><a href="#9-当我们在使用new的时候到底发生了什么" class="headerlink" title="9. 当我们在使用new的时候到底发生了什么"></a>9. 当我们在使用<code>new</code>的时候到底发生了什么</h3><p>在<code>JavaScript</code>中，构造函数只是一些使用<code>new</code>操作符时被调用的函数，它们并不会属于某个类，也不会实例化一个类。所以，实际上并不存在所谓的“构造函数”，只有对于函数的“构造调用”。</p>
+<p>当使用<code>new</code>来调用函数时，会自动执行以下操作：</p>
+<ul>
+<li>创建一个全新的对象</li>
+<li>这个新对象会被执行<code>[[prototype]]</code>连接</li>
+<li>这个新对象会绑定到函数调用的<code>this</code></li>
+<li>如果函数没有返回其他对象，那么<code>new</code>表达式中的函数调用会自动返回这个新对象。</li>
+</ul>
+<p>看下面的例子：</p>
+<pre><code>function SuperType(name) { // 定义了一个超类，供下面的子类继承
+    this.name = name;
+}
+
+function SubType() { // 定义了子类1，继承了超类，无返回值
+    SuperType.call(this, &quot;Cong1&quot;);
+    this.age = 29;  
+}
+
+function SubType2() { // 定义了子类2，继承了超类，返回了一个引用类型的值
+    SuperType.call(this, &quot;Cong2&quot;);
+    this.age = 29;
+    return { a: 2 };
+}
+
+function SubType3() { // 定义了子类3，继承了超类，返回了一个值类型的值
+    SuperType.call(this, &quot;Cong3&quot;);
+    this.age = 29;
+    return 3;
+}
+/* 下面比较有new操作符和无new操作符调用子类的区别 */
+
+var instance1_nonew = SubType();
+var instance2_nonew  = SubType2();
+var instance3_nonew = SubType3();
+var instance1_hasnew = new SubType();
+var instance2_hasnew = new SubType2();
+var instance3_hasnew = new SubType3();
+
+
+// 依次打印六个变量
+console.log(…);
+</code></pre><p>得到的结果是：</p>
+<pre><code>instance1_nonew
+undefined
+instance2_nonew
+&gt; Object {a: 2}
+instance3_nonew
+3
+instance1_hasnew
+&gt; SubType {name: &quot;Cong1&quot;, age: 29}
+instance2_hasnew
+&gt; Object {a: 2}
+instance3_hasnew
+&gt; SubType3 {name: &quot;Cong3&quot;, age: 29}
+</code></pre><p>没有<code>new</code>操作符的语句，就像我们平常调用函数一样，得到的肯定是函数的返回值，所以前3个<code>_nonew</code>变量就会得到图示所示的结果。</p>
+<p>而看到下面3个<code>_hasnew</code>变量，行为却有点不同，没有返回值的<code>1_hasnew</code>就直接构造了一个实例对象，而<code>2_hasnew</code>和<code>3_hasnew</code>都是有返回值的，两者的表现却不同了。</p>
+<p>根据上面所说的原理再来分析一下这个过程：</p>
+<ol>
+<li>首先新建一个对象：<br><code>var instance = new Object()</code></li>
+<li>给这个对象设置<code>[[prototype]]</code>链：<br><code>instance.__proto__ = SubType.prototype</code></li>
+<li>绑定<code>this</code>，将<code>SubType</code>中的<code>this</code>指向<code>instance</code>，执行<code>SubType</code>中的语句进行赋值。</li>
+<li>返回值，这里要根据<code>SubType</code>的返回类型来判断😷：<ul>
+<li>如果是一个引用类型（对象），那么就替换掉<code>instance</code>本身的这个对象。（如：<code>instance2_hasnew</code>）</li>
+<li>如果是值类型，那么直接丢弃它，返回<code>instance</code>对象本身。（如：<code>instance3_hasnew</code>）</li>
+</ul>
+</li>
+</ol>
+<h3 id="10-应用：两种继承的设计模式"><a href="#10-应用：两种继承的设计模式" class="headerlink" title="10. 应用：两种继承的设计模式"></a>10. 应用：两种继承的设计模式</h3><blockquote>
+<p>在JavaScript中没有类的概念，更多的是使用原型继承。而这两种设计模式，一种是面向对象模式，而另外一种是对象关联模式。</p>
+</blockquote>
+<p>在使用的过程中，都用到了<code>Object.create()</code>，它会创建一个新对象并把它关联到我们指定的对象，也就是进行<code>[[prototype]]</code>连接。</p>
+<ul>
+<li>“原型”面向对象风格</li>
+</ul>
+<pre><code>function Foo(who) {
+    this.me = who
+}
+Foo.prototype.identify = function() {
+    return &quot;I am &quot; + this.me
+}
+function Bar(who) {
+    Foo.call(this,who)
+}
+Bar.prototype = Object.create(Foo.prototype)
+
+Bar.prototype.speak = function() {
+    console.log(&quot;Hello, &quot; + this.identify() + &quot;.&quot;)
+}
+
+var b1 = new Bar(&quot;b1&quot;)
+var b2 = new Bar(&quot;b2&quot;)
+
+b1.speak() //Hello, I am b1.
+b2.speak() //Hello, I am b2.
+</code></pre><p>关系图如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5376626-a580a38ce8549fa5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<ul>
+<li>对象关联风格</li>
+</ul>
+<pre><code>Foo = {
+    init: function(who) {
+        this.me = who
+    },
+    identify: function() {
+        return &quot;I am &quot; + this.me
+    }
+}
+Bar = Object.create(Foo)
+Bar.speak = function() {
+    console.log(&quot;Hello, &quot; + this.identify() + &quot;.&quot;)
+}
+
+var b1 = Object.create(Bar)
+b1.init(&quot;b1&quot;)
+var b2 = Object.create(Bar)
+b2.init(&quot;b2&quot;)
+
+b1.speak() //Hello, I am b1.
+b2.speak() //Hello, I am b2.
+</code></pre><p>关系图如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/5376626-81057de8d93c3a22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>以上两种继承的设计，明显发现第二种更加的简洁。<br>在“原型面向对象风格”中，需要时刻的留意<code>prototype</code>的情况，<code>[[prototype]]</code>“游走”于函数的<code>prototype</code>之间。<br>而对于“对象关联风格”，它只关心一件事，那就是对象之间的关联情况，不将方法写于函数的<code>prototype</code>上。</p>
+<p>虽然实现的原理是相同的，但是不同的思维方式，更利于理解，代码风格更为友好🤗。</p>
+<h3 id="11-函数与对象到底是什么关系"><a href="#11-函数与对象到底是什么关系" class="headerlink" title="11. 函数与对象到底是什么关系"></a>11. 函数与对象到底是什么关系</h3><p>其实，这个问题也是困扰了我很久😪。</p>
+<p>我们都知道：</p>
+<ol>
+<li>一切对象继承于<code>Object</code>。（当然<code>Object.prototype</code>除外）</li>
+<li><code>Object.prototype.__proto__</code>指向了<code>null</code>。</li>
+<li>对象都是由函数创建的。</li>
+</ol>
+<p>以上，看似并没有什么用，那现在我们来缕一下思路。</p>
+<ol>
+<li>（这里先不考虑<code>Object.prototype</code>）一切对象继承于<code>Object</code> ，所以说，对象的原型链（<code>__proto__</code>）最终的位置应该是<code>Object.prototype</code>。所以一切的老大应该是<code>Object.prototype</code>。</li>
+<li><code>Object.prototype.__proto__</code>指向了<code>null</code>。既然<code>__proto__</code>的指向是创建这个对象的函数原型，可是这里<code>Object.prototype.__proto__</code>却指向了<code>null</code>。那么，唯一可能就是<code>Object.prototype</code>是由<code>JavaScript</code>引擎创造出来的。</li>
+<li>所以，<b>最终<code>[[prototype]]</code>链的位置应该是<code>null</code>而不是<code>Object.prototype</code></b>。</li>
+<li>对象都是由函数创建的。（这里的对象同样是不考虑<code>Object.prototype</code>的）也就是说，所有的对象都是由<code>Function</code>构造出来，那么他们的<code>[[prototype]]</code>都应该经过<code>Function.prototype</code>。</li>
+<li>于是，引用类型等构造函数（如：<code>Array()</code>、<code>Object()</code>等）以及普通的函数对象，甚至<code>Function</code>，他们的<code>__proto__</code>应该是指向<code>Function.prototype</code>。</li>
+<li>那<code>Function.prototype</code>的<code>__proto__</code>指向了哪里？由第一点可知，当然是指向了<code>Object.prototype</code>，所以<code>Function.prototype</code>就是老二。</li>
+</ol>
+<p>所以，简而言之：</p>
+<ul>
+<li>首先有的应该是<code>Object.prototype</code>，它是由<code>JavaScript</code>引擎创造出来的。</li>
+<li>紧接着才有<code>Function.prototype</code>，并把它的<code>__proto__</code>连接到了<code>Object.prototype</code>。</li>
+<li>接下来，将各种内置引用类型的构造函数的<code>__proto__</code>连接到了<code>Function.prototype</code>。</li>
+<li>执行<code>Function.__proto__</code>连接到<code>Function.prototype</code>的操作。</li>
+<li>执行<code>Object.__proto__</code>连接到<code>Object.prototype</code>的操作。</li>
+<li>最后再是对<code>Function</code>和<code>Object</code>实例的挂载。</li>
+</ul>
+<p>注：以上为个人的见解，欢迎指正😉。</p>
+<hr>
+<p>😉这是一条可爱的分割线😉。</p>
+<p>以上，就是本次博客的全部内容~（终于结束了）~感谢你耐心的阅读😉<br>第一次写博客，如有理解错误的地方，师请改正😳。</p>
+<p>参考资料：<br>  书籍：《你不知道的JavaScript（上卷）》<br>  博客：<a href="http://www.cnblogs.com/wangfupeng1988/p/4001284.html" target="_blank" rel="external">http://www.cnblogs.com/wangfupeng1988/p/4001284.html</a><br>  博客：<a href="http://www.yangzicong.com/article/1" target="_blank" rel="external">http://www.yangzicong.com/article/1</a></p>
+
+        </div>
+        <div class="box-shadow">
+            <div class="shadow-left"></div>
+            <div class="shadow-right"></div>
+        </div>
+        <div class="views-comment">
+            <div class="loading-wrapper">
+    <img src="/assets/image/postload.gif" alt="正在加载中...">
+</div>
+            <div id="comment">
+                <div class="comment-wrapper">
+                    <div id="SOHUCS" sid="JavaScript之原型链的解读-2017-08-23-08:53"></div>
+                </div>
+            </div>
+        </div>
+    </article>
+</div>
+<div class="right-wrap">
+    <div class="about-content">
+        <div class="about">
+            <img src="/assets/image/about.png" >
+        </div>
+        <div class="introduction">
+            <span class="myName" title="关于我"><a href="/about">周绪北</a></span>
+            <br>
+            <span class="tip-text">心有猛虎，细嗅蔷薇</span>
+            <nav class="site-state">
+                <div class="site-state-item site-state-posts">
+                    <a href="/archives/">
+                        <span class="site-state-item-count">7</span>
+                        <span class="site-state-item-name">博客</span>
+                    </a>
+                </div>
+                <div class="site-state-item site-state-categories">
+                    <a class="category-click">
+                        <span class="site-state-item-count">5</span>
+                        <span class="site-state-item-name">分类</span>
+                    </a>
+                </div>        
+                <div class="site-state-item site-state-tags">
+                    <a class="tag-click">
+                        <span class="site-state-item-count">16</span>
+                        <span class="site-state-item-name">标签</span>
+                    </a>
+                </div> 
+            </nav>
+            <div class="feed-link">
+                <a href="atom.xml" rel="alternate"><i class="fa fa-rss" aria-hidden="true"></i>RSS</a>
+            </div>
+            <div class="link-author">
+                <span class="link-item github">
+                    <a href="https://github.com/Devinnn"><i class="fa fa-github" aria-hidden="true"></i>Github</a>
+                </span>
+                <span class="link-item contact">
+                    <a href="/about#联系我"><i class="fa fa-phone" aria-hidden="true"></i>联系我</a>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="toc-content">
+        <div id="toc" class="toc-article">
+            <strong class="toc-title">文章目录</strong>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-函数与对象"><span class="toc-text">1. 函数与对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-对于prototype的认识"><span class="toc-text">2. 对于prototype的认识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-对于-proto-的的认识"><span class="toc-text">3. 对于__proto__的的认识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-prototype和-proto-的关系"><span class="toc-text">4. prototype和__proto__的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-instanceof操作符到底是怎么穿梭的"><span class="toc-text">5. instanceof操作符到底是怎么穿梭的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-prototype-链属性的访问"><span class="toc-text">6. [[prototype]]链属性的访问</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-prototype-链上的属性设置与属性屏蔽"><span class="toc-text">7. [[prototype]]链上的属性设置与属性屏蔽</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-关于prototype中的constructor属性"><span class="toc-text">8. 关于prototype中的constructor属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-当我们在使用new的时候到底发生了什么"><span class="toc-text">9. 当我们在使用new的时候到底发生了什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-应用：两种继承的设计模式"><span class="toc-text">10. 应用：两种继承的设计模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#11-函数与对象到底是什么关系"><span class="toc-text">11. 函数与对象到底是什么关系</span></a></li></ol>
+        </div>
+    </div>
+    
+</div>
+<div class="clearfix"></div>
+<a class="toTop" id="toTop"><img src="/assets/image/gotop.png" alt="回到顶端"></a>
+
+
+        </main>
+        <footer>
+    <span>Copyright © 2017	. All rights reserved</span>
+</footer>
+        <div class="overlay-wrapper" style="visibility: hidden;">
+    <div class="overlay"></div>
+</div>
+<div class="search-wrapper" style="visibility: hidden;">
+    <div id="site_search" class="search-content">
+        <header>
+            <span class="mylogo"><i class="fa fa-search" aria-hidden="true"></i></span>
+            <span class="search-close close">关闭</span>
+        </header>
+        <div class="form-group">
+            <input type="text" id="local-search-input" name="q" results="0" placeholder="请输入搜索内容" class="st-search-input st-default-search-input form-control"/ autocomplete="off" max-length="50">
+        </div>
+        <div class="nice-scroll">
+            <div id="local-search-result" class="detail">
+            </div>
+        </div>
+    </div>
+    <div class="vertical"></div>
+</div>
+
+<div class="category-wrapper" style="visibility: hidden;">
+    <div class="category-content">
+        <header>
+            <span class="mylogo"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+            <span class="category-close close">关闭</span>
+        </header>
+        <div class="nice-scroll">
+            <div class="detail">
+                
+                    
+                    <a href="/categories/测试">测试</a>
+                    
+                    <a href="/categories/书单">书单</a>
+                    
+                    <a href="/categories/问答">问答</a>
+                    
+                    <a href="/categories/JavaScript基础">JavaScript基础</a>
+                    
+                    <a href="/categories/测试2">测试2</a>
+                    
+                 
+            </div>
+        </div>
+    </div>
+    <div class="vertical"></div>
+</div>
+<div class="tag-wrapper" style="visibility: hidden;">
+    <div class="tag-content">
+        <header>
+            <span class="mylogo"><i class="fa fa-tags" aria-hidden="true"></i></span>
+            <span class="tag-close close">关闭</span>
+        </header>
+        <div class="nice-scroll">
+            <div class="detail">
+                
+                    
+                    <a href="/tags/markdown样式预览">markdown样式预览</a>
+                    
+                    <a href="/tags/详细">详细</a>
+                    
+                    <a href="/tags/闲聊">闲聊</a>
+                    
+                    <a href="/tags/简约1">简约1</a>
+                    
+                    <a href="/tags/简约2">简约2</a>
+                    
+                    <a href="/tags/简约3">简约3</a>
+                    
+                    <a href="/tags/简约4">简约4</a>
+                    
+                    <a href="/tags/简约5">简约5</a>
+                    
+                    <a href="/tags/简约6">简约6</a>
+                    
+                    <a href="/tags/简约7">简约7</a>
+                    
+                    <a href="/tags/简约8">简约8</a>
+                    
+                    <a href="/tags/简约9">简约9</a>
+                    
+                    <a href="/tags/简约10">简约10</a>
+                    
+                    <a href="/tags/JavaScript">JavaScript</a>
+                    
+                    <a href="/tags/123">123</a>
+                    
+                    <a href="/tags/简约">简约</a>
+                    
+                
+            </div>
+        </div>
+    </div>
+    <div class="vertical"></div>
+</div>
+        
+<script src="/js/jquery-3.2.1.min.js"></script>
+<script src="/js/jquery.nicescroll.min.js"></script>
+<script src="/js/jquery.fancybox.min.js"></script>
+<script src="/js/fastclick.js"></script>
+<script src="/js/overlay.js"></script>
+
+
+
+<script id="cy_cmt_num" src="https://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cytdEo7q8"></script>
+
+
+<script src="/js/common.js"></script>
+
+
+
+    <script src="/js/search.js"></script>
+    <script type="text/javascript">      
+        var search_path = "search.xml"
+        if (search_path.length == 0) {
+            search_path = "search.xml"
+        }
+        var path = "/" + search_path
+        var tip = "暂无搜索内容"
+        searchFunc(path, 'local-search-input', 'local-search-result', tip)
+    </script>
+
+
+
+
+    <script>
+        $(function() {
+            $(".views-read").hide()
+        })
+    </script>
+
+
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('pre code').each(function(i, block) {
+                hljs.highlightBlock(block)
+            })
+        })
+    </script>
+
+
+
+
+    <script>
+        $(function() {
+            wrapImg($(".post-content"))
+        })
+    </script>
+    <script src="/js/post.js"></script>
+    
+    <script src="/js/comment.js"></script>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    $(function() {
+        $("[data-fancybox]").fancybox({
+            buttons : []
+        })
+    })
+</script>
+    </body>
+</html>
