@@ -92,8 +92,7 @@
 </code></pre><p>但是，很多小伙伴只是感性的认识：噢，我加了这行代码，然后页面的宽度就会跟我的设备宽度一致。然而，这种理解是很片面的。那么，这句话的本质到底是什么呢？</p>
 <p>不急，我们先往下面看，这里先留个悬念。</p>
 <h4 id="几个专有名词和单位"><a href="#几个专有名词和单位" class="headerlink" title="几个专有名词和单位"></a>几个专有名词和单位</h4><p>这里，我们先来辨析一下在适配的时候经常会遇到的一些名词、数值单位。</p>
-<p>首先，先来看一下<strong>物理像素</strong>。</p>
-<p>以iphone6为例，可知道：</p>
+<p>首先，先来看一下<strong>物理像素</strong>。<br><a id="more"></a><br>以iphone6为例，可知道：</p>
 <p><strong>分辨率</strong>：1334pt x 750pt<br>指的是屏幕上垂直有1136个物理像素，水平有750个物理像素。</p>
 <p><strong>屏幕尺寸</strong>：4.7in<br>注意英寸是长度单位，不是面积单位。4.7英寸指的是屏幕对角线的长度，1英寸等于2.54cm。</p>
 <p><strong>屏幕像素密度</strong>：326ppi<br>指的是每英寸屏幕所拥有的像素数，在显示器中，dpi=ppi。dpi强调的是每英寸多少点。同时，<strong>屏幕像素密度</strong>=<strong>分辨率</strong>/<strong>屏幕尺寸</strong></p>
@@ -101,14 +100,15 @@
 <p><strong>设备独立像素</strong>：设备独立像素，不同于设备像素（物理像素），它是虚拟化的。比如说css像素，我们常说的10px其实指的就是它。需要注意的是，<strong>物理像素</strong>开发者是无法获取的，它是自然存在的一种东西，该是多少就是多少。</p>
 <p><strong>设备像素比</strong>：缩写简称<strong>dpr</strong>，也就是我们经常在谷歌控制台移动端调试顶端会看到的一个值。<strong>设备像素比</strong> = <strong>设备像素</strong> / <strong>css像素</strong>（垂直方向或水平方向）。可以通过JS来获取：<code>window.devicePixelRatio</code></p>
 <h4 id="PC和移动端不同的视口"><a href="#PC和移动端不同的视口" class="headerlink" title="PC和移动端不同的视口"></a>PC和移动端不同的视口</h4><p><strong>注：以下涉及的像素均为CSS像素。并且默认不考虑缩放。</strong></p>
-<p><strong>布局视口</strong><br><a id="more"></a><br>写过css的小伙伴应该知道，我们在<code>html</code>、<code>body</code>设置<code>width:100%;height:100%;</code>的时候，它并不是无效的。我们都知道<code>100%</code>这种百分数应该是继承父元素而来的。那在这里是继承哪里的呢？</p>
+<p><strong>布局视口</strong></p>
+<p>写过css的小伙伴应该知道，我们在<code>html</code>、<code>body</code>设置<code>width:100%;height:100%;</code>的时候，它并不是无效的。我们都知道<code>100%</code>这种百分数应该是继承父元素而来的。那在这里是继承哪里的呢？</p>
 <p>在<strong>PC浏览器</strong>中，有一个用来约束CSS布局视口的东西，又叫做初始包含块。这也就是所有宽高继承的由来。除去<code>margin</code>、<code>padding</code>，布局视口和浏览器可视窗口宽度是一致的，同时也和浏览器本身的宽度一致。</p>
 <p>但是在<strong>移动端</strong>，就大不一样了。</p>
 <p>以下的例子是在不加<code>meta</code>标签的前提下进行演示的。</p>
 <p>假如我们现在做一个二八分的左右布局，那么如果在PC端上面的话，显示的效果非常完美，这没什么好说的。</p>
 <p>那如果是在手机端呢，这里以iphone6为例子来讲解：</p>
 <p>图例如下：</p>
-<p><img src="http://note.youdao.com/yws/public/resource/6e15c67cb09c8b7d6e2ce8cad9ee5c32/xmlnote/0E41702FA6BC48D0BAD7E4C0A8EF94C3/21919" alt="image"></p>
+<p><img src="http://oxybu3xjd.bkt.clouddn.com/1508220097.png" alt="image"></p>
 <p>代码如下：</p>
 <pre><code>* {
     margin: 0;
@@ -149,8 +149,8 @@ body {
 <p>而在<strong>PC端</strong>，缩放对应布局宽度和视觉窗口宽度都是<strong>联动</strong>的。而浏览器宽度本身是固定的，无论怎么缩放都不受影响。</p>
 <p>如果对上面的宽度还是很乱，那么这里有一个表格可以帮助你理清思路。</p>
 <p>以下表格横向都以浏览器窗口的宽度作为基准：</p>
-<p>对于PC端来说：<br><img src="http://note.youdao.com/yws/public/resource/6e15c67cb09c8b7d6e2ce8cad9ee5c32/xmlnote/7897238B06414BAFBDD344FCCE5B0B32/22064" alt="image"></p>
-<p>对于移动端来说：<br><img src="http://note.youdao.com/yws/public/resource/6e15c67cb09c8b7d6e2ce8cad9ee5c32/xmlnote/DB5FB8386BD2419E975AFD7C934AAA87/22068" alt="image"></p>
+<p>对于PC端来说：<br><img src="http://oxybu3xjd.bkt.clouddn.com/1508220128.png" alt="image"></p>
+<p>对于移动端来说：<br><img src="http://oxybu3xjd.bkt.clouddn.com/1508220121.png" alt="image"></p>
 <p><strong>理想视口</strong></p>
 <p>以上，布局视口很明显对用户十分的不友好，完全忽略了手机本来的尺寸。</p>
 <p>所以苹果引入了理想视口的概念，它是对设备来说最理想的布局视口尺寸。理想视口中的网页用户最理想的宽度，用户进入页面的时候不需要缩放。</p>
@@ -166,14 +166,14 @@ body {
 <p>其实这个问题，就是涉及到了上面讲到的一个属性：<strong>设备像素比</strong>，即我们经常说的<strong>dpr</strong>。下面先来看<strong>dpr</strong>的表现：</p>
 <p>假设现在有一台iphone6，那么它的设备独立像素是375x667，dpr为2，尺寸是4.7in，那么物理像素就是750x1334。<br>同样的我们也有一台不知名的设备，它的设备独立像素刚好也是375x667，尺寸也是4.7in，但是dpr为1，此时的物理像素就是375x667。</p>
 <p>于是，它们的屏幕表现如下：</p>
-<p><img src="http://note.youdao.com/yws/public/resource/6e15c67cb09c8b7d6e2ce8cad9ee5c32/xmlnote/B55D70F9C96D4C1990C7CE2243569DA3/22211" alt="image"></p>
+<p><img src="http://oxybu3xjd.bkt.clouddn.com/1508220154.png" alt="image"></p>
 <p>在不同的屏幕上，无论是普通屏幕还是retina屏幕，<strong>css像素所呈现的大小是一致的</strong>。（如果不理解这句话，可以写一个2px的正方形使用谷歌控制台移动设备调试，在不同的设备之间来回切换，你会发现大小其实是一样的。一开始我总以为这个css像素的实际宽高因为受到dpr的影响而在不同设备上的长宽是不一致的。）</p>
 <p>不同的是，1个css像素对应（覆盖）的物理像素个数。</p>
 <p>所以，如果我们想要在这两个屏幕显示这么一个css样式：</p>
 <pre><code>width: 2px;
 heigth: 2px;
 </code></pre><p>在普通屏幕下，也就是dpr为1的屏幕中，1个css像素对应（覆盖）的是一个物理像素。在retina屏幕下，1个css像素对应（覆盖）的是4个物理像素。换句话说，就是dpr为2的设备。看下面这张图：</p>
-<p><img src="http://note.youdao.com/yws/public/resource/6e15c67cb09c8b7d6e2ce8cad9ee5c32/xmlnote/23998D034FDF478092A4E2F5560FB359/22190" alt="image"></p>
+<p><img src="http://oxybu3xjd.bkt.clouddn.com/1508220142.png" alt="image"></p>
 <p>浅显的理解就是可以看作是2cmx2cm的正方形被切割成四块，然后遇到dpr为2的时候，被切割的四块又被分别切割成四块，但是总面积不变。</p>
 <h4 id="模糊的产生"><a href="#模糊的产生" class="headerlink" title="模糊的产生"></a>模糊的产生</h4><p>知道了1个css像素覆盖的物理像素可能不同，就好理解为什么会出现模糊的情况了。</p>
 <p>这里又讲到一个名词：<strong>位图像素</strong>。</p>
@@ -181,16 +181,16 @@ heigth: 2px;
 <p>理论上来说，<strong>1个位图像素对应1个物理像素，图片才能等到完美清晰的展示</strong>。</p>
 <p>但是上面说过，在retina屏幕上，会出现1个位图像素对应多个物理像素。</p>
 <p>还是以iphone6为例，1个位图像素对应4个物理像素。由于单个位图像素已经是最小的数据单位了，它不能再被进行切割。于是为了能够显示出来，就只能就近取色，从而导致所谓的图片模糊问题。如下：</p>
-<p><img src="http://note.youdao.com/yws/public/resource/6e15c67cb09c8b7d6e2ce8cad9ee5c32/xmlnote/6EEB0EDA61844D48AF3A00C38851D7E5/22262" alt="image"></p>
+<p><img src="http://oxybu3xjd.bkt.clouddn.com/1508220162.png" alt="image"></p>
 <h4 id="如何解决"><a href="#如何解决" class="headerlink" title="如何解决"></a>如何解决</h4><p>很明显，由于位图像素不够分而产生模糊的情况，解决的办法十分简单，就是使用跟dpr同个倍数大小的图片。比如iphone6，一个200x300的<code>img</code>标签，原图就要提供400x600的大小。</p>
 <p>那么当加载到<code>img</code>标签中，浏览器会自动对每1px的css像素减半，可以理解为此时还是维持着1:1的css像素:物理像素，不产生模糊。</p>
 <p>这个做法其实就是手淘团队在做retina适配的一个重要的原理之一，后面会讲到，这里先放着不说。</p>
 <h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>反向思考一下，如果普通屏幕，也就是dpr为1的屏幕，也使用了两倍的图片，会发生什么样的情况呢？</p>
 <p>很明显，在普通屏幕下，200×300的<code>img</code>标签，所对应的物理像素个数就是200×300个，而两倍图片的位图像素个数则是200x300x4，所以就出现一个物理像素点对应4个位图像素点，所以它的取色也只能通过一定的算法进行缩减，显示结果就是一张只有原图像素总数四分之一，肉眼看上去虽然图片不会模糊，但是会觉得有点色差。（其实就是模糊的逆向过程）</p>
 <p>用图片来表示就是：</p>
-<p><img src="http://note.youdao.com/yws/public/resource/6e15c67cb09c8b7d6e2ce8cad9ee5c32/xmlnote/38B65E5378BA488C81D22B52397F599D/22293" alt="image"></p>
+<p><img src="http://oxybu3xjd.bkt.clouddn.com/1508220171.png" alt="image"></p>
 <p>这里摘取了网上一篇<a href="http://mobile.51cto.com/web-484304.htm" target="_blank" rel="external">博文</a>的demo来阐述上面所说的问题。</p>
-<p><img src="http://note.youdao.com/yws/public/resource/6e15c67cb09c8b7d6e2ce8cad9ee5c32/xmlnote/E0425113DD7142E4AD6BD36760DC4B6B/22307" alt="image"></p>
+<p><img src="http://oxybu3xjd.bkt.clouddn.com/1508220182.png" alt="image"></p>
 <p>以上是一张100x100的图片，分别放在了100x100，50x50，25x25的容器中，在retina屏幕下面的显示效果。</p>
 <p>通过取色器放大镜可以看出边界像素点的差别：</p>
 <p>在图一中，边界像素点就近取色，色值介于红白之间，偏淡，图片看上去会模糊(可以理解为图片拉伸)。</p>
@@ -309,6 +309,13 @@ heigth: 2px;
         </div>
     </div>
     
+    <div class="toc-content">
+        <div id="toc" class="toc-article">
+            <strong class="toc-title">文章目录</strong>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#meta标签到底做了什么事情"><span class="toc-text">meta标签到底做了什么事情</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#几个专有名词和单位"><span class="toc-text">几个专有名词和单位</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PC和移动端不同的视口"><span class="toc-text">PC和移动端不同的视口</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Retina屏幕-amp-普通屏幕，模糊的由来"><span class="toc-text">Retina屏幕&普通屏幕，模糊的由来</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#dpr的具体表现"><span class="toc-text">dpr的具体表现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模糊的产生"><span class="toc-text">模糊的产生</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何解决"><span class="toc-text">如何解决</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他"><span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#手淘团队flexible-js布局"><span class="toc-text">手淘团队flexible.js布局</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#rem布局和字体的处理"><span class="toc-text">rem布局和字体的处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Retina屏幕下的处理与安卓手机的适配"><span class="toc-text">Retina屏幕下的处理与安卓手机的适配</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#响应式与自适应的选择"><span class="toc-text">响应式与自适应的选择</span></a></li></ol>
+        </div>
+    </div>
+    
 </div>
 <div class="clearfix"></div>
 <a class="toTop" id="toTop"><img src="/assets/image/gotop.png" alt="回到顶端"></a>
@@ -348,11 +355,11 @@ heigth: 2px;
             <div class="detail">
                 
                     
-                    <a href="/categories/测试">测试</a>
+                    <a href="/categories/JavaScript基础">JavaScript基础</a>
                     
                     <a href="/categories/移动端适配">移动端适配</a>
                     
-                    <a href="/categories/JavaScript基础">JavaScript基础</a>
+                    <a href="/categories/测试">测试</a>
                     
                  
             </div>
@@ -370,13 +377,13 @@ heigth: 2px;
             <div class="detail">
                 
                     
-                    <a href="/tags/markdown样式预览">markdown样式预览</a>
+                    <a href="/tags/JavaScript">JavaScript</a>
                     
                     <a href="/tags/flexible布局">flexible布局</a>
                     
                     <a href="/tags/CSS">CSS</a>
                     
-                    <a href="/tags/JavaScript">JavaScript</a>
+                    <a href="/tags/markdown样式预览">markdown样式预览</a>
                     
                 
             </div>
