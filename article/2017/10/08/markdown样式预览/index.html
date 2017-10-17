@@ -24,7 +24,7 @@
                 </li>
             
                 <li>
-                <a href="/archives/" class="active-link">归档</a>
+                <a href="/archives/" class="">归档</a>
                 </li>
             
                 <li>
@@ -49,7 +49,7 @@
                 <a href="/" >首页</a>
             </li>
         
-            <li class="active-link bg-link">
+            <li class="">
                 <a href="/archives/" >归档</a>
             </li>
         
@@ -69,64 +69,84 @@
 </header>
 
         <main class="main fade">
-            <div class="left-wrap">
-    <div class="archive-wrapper">
-        <div class="head-title">
-            <span><a href="/archives">文章概况</a></span>
+            
+<div class="left-wrap">
+    <article class="post">
+        <div class="post-title">
+            <h2 class="title">markdown样式预览（测试）</h2>
         </div>
-        <div class="container">
-            <span class="dot-l"></span>
-            
-            <span class="fromNowText">至<a id="time">2017年10月17日</a>，共计2篇文章。</span>
-            
-            
-            
-            
-            
-            
-                
-                <div class="collection-title-year">
-                    <h2>2017</h2>
+        <div class="post-meta">
+            <span class="post-time"><i class="fa fa-calendar-o" aria-hidden="true"></i>发布于<span class="timer">2017-10-08</span></span>
+            <span>|</span>
+            <span class="post-category"><i class="fa fa-folder-o" aria-hidden="true"></i>分类于"测试"</span>
+            <span class="views-comment">|</span>
+            <span class="post-comment views-comment"><i class="fa fa-comment-o" aria-hidden="true"></i><span>评论(<span id = "sourceId::markdown样式预览（测试）-2017-10-08-12:34" class = "cy_cmt_count" ></span>)</span></span>
+            <span class="views-comment">|</span>
+            <span class="post-read views-read"><i class="fa fa-eye" aria-hidden="true"></i>热度(<span data-id="markdown样式预览（测试）-2017-10-08-12:34" data-title="markdown样式预览（测试）" class="viewsReading">正在载入...</span>)</span>
+            <span class="views-read">|</span>
+            <span class="views-comment"><a href="#comment">#跳到评论#</a></span>
+        </div>
+        <div class="post-content">
+            <h1 id="标题一"><a href="#标题一" class="headerlink" title="标题一"></a>标题一</h1><h2 id="标题二"><a href="#标题二" class="headerlink" title="标题二"></a>标题二</h2><h3 id="标题三"><a href="#标题三" class="headerlink" title="标题三"></a>标题三</h3><h4 id="标题四"><a href="#标题四" class="headerlink" title="标题四"></a>标题四</h4><h5 id="标题五"><a href="#标题五" class="headerlink" title="标题五"></a>标题五</h5><h5 id="标题六"><a href="#标题六" class="headerlink" title="标题六"></a>标题六</h5><p>段落： 这里是段落</p>
+<p>无序列表：</p>
+<ul>
+<li>1<ul>
+<li>123123</li>
+</ul>
+</li>
+<li>2</li>
+<li>3</li>
+<li>4</li>
+</ul>
+<p>有序列表：</p>
+<ol>
+<li>123123123<ul>
+<li>123123</li>
+<li>123123</li>
+</ul>
+</li>
+<li>1212313123</li>
+</ol>
+<p>引用：</p>
+<blockquote>
+<ol>
+<li>123 </li>
+<li>123</li>
+</ol>
+</blockquote>
+<p>分割线： </p>
+<hr>
+<p>代码：</p>
+<pre><code>p {
+    margin: 0;
+    padding: 0
+}
+---
+var a = 2;
+---
+&lt;h1&gt;hello&lt;/h1&gt;
+</code></pre><a id="more"></a>
+<p>强调：<br><strong>123</strong></p>
+<p><em>下划线</em></p>
+<p>删除：<br><del>123</del></p>
+<p>行内代码：<br><code>print</code></p>
+
+        </div>
+        <div class="box-shadow">
+            <div class="shadow-left"></div>
+            <div class="shadow-right"></div>
+        </div>
+        <div class="views-comment">
+            <div class="loading-wrapper">
+    <img src="/assets/image/postload.gif" alt="正在加载中...">
+</div>
+            <div id="comment">
+                <div class="comment-wrapper">
+                    <div id="SOHUCS" sid="markdown样式预览（测试）-2017-10-08-12:34"></div>
                 </div>
-            
-            
-                
-                <div class="collection-title-month lineDown">
-                    <h2>10月</h2>
-                </div>
-            
-            <div class="article-entry">
-                <a href="/article/2017/10/17/前端移动端适配总结/">
-                    <header class="lineDown">
-                        <div class="title">
-                        <span class="time">10-17</span>
-                        <span>前端移动端适配总结</span>
-                        </div>
-                    </header>
-                </a>
-                
             </div>
-            
-            
-            
-            
-            
-            <div class="article-entry">
-                <a href="/article/2017/10/08/markdown样式预览/">
-                    <header class="lineDown">
-                        <div class="title">
-                        <span class="time">10-08</span>
-                        <span>markdown样式预览（测试）</span>
-                        </div>
-                    </header>
-                </a>
-                
-            </div>
-            
-            <span class="line"></span>
-        </div> 
-        
-    </div>
+        </div>
+    </article>
 </div>
 <div class="right-wrap">
     <div class="about-content">
@@ -172,8 +192,16 @@
         </div>
     </div>
     
+    <div class="toc-content">
+        <div id="toc" class="toc-article">
+            <strong class="toc-title">文章目录</strong>
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#标题一"><span class="toc-text">标题一</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#标题二"><span class="toc-text">标题二</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#标题三"><span class="toc-text">标题三</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#标题四"><span class="toc-text">标题四</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#标题五"><span class="toc-text">标题五</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#标题六"><span class="toc-text">标题六</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+        </div>
+    </div>
+    
 </div>
 <div class="clearfix"></div>
+<a class="toTop" id="toTop"><img src="/assets/image/gotop.png" alt="回到顶端"></a>
 
 
         </main>
@@ -198,46 +226,6 @@
         </div>
     </div>
     <div class="vertical"></div>
-</div>
-
-<div class="date-wrapper" style="visibility: hidden;">
-    <div class="date-content">
-        <header>
-            <span class="mylogo"><i class="fa fa-calendar-check-o" aria-hidden="true"></i></span>
-            <span class="date-close close">关闭</span>
-        </header>
-        <div class="detail">
-            <input type="hidden" value="[[&#34;2017&#34;,0,0,0,0,0,0,0,1,0,1,0,0]]" id="timeVal"></input>
-            <div class="year">
-                <span class="y-l"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
-                <ul class="show-line">
-                    
-                        
-                            
-                            <li class="date-show"><a href="/archives/2017" data-index="0">2017</a></li>
-                            
-                        
-                    
-                </ul>
-                <span class="y-r"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
-            </div>
-            <div class="month">
-                <a><span>1月</span><i></i></a>
-                <a><span>2月</span><i></i></a>
-                <a><span>3月</span><i></i></a>
-                <a><span>4月</span><i></i></a>
-                <a><span>5月</span><i></i></a>
-                <a><span>6月</span><i></i></a>
-                <a><span>7月</span><i></i></a>
-                <a><span>8月</span><i></i></a>
-                <a><span>9月</span><i></i></a>
-                <a><span>10月</span><i></i></a>
-                <a><span>11月</span><i></i></a>
-                <a><span>12月</span><i></i></a>
-            </div>
-        </div>
-    </div>
-    <span class="vertical"></span>
 </div>
 
 <div class="category-wrapper" style="visibility: hidden;">
@@ -337,10 +325,18 @@
 
 
 
+    <script>
+        $(function() {
+            wrapImg($(".post-content"))
+        })
+    </script>
+    <script src="/js/post.js"></script>
+    
+    <script src="/js/comment.js"></script>
+    
 
 
 
-    <script src="/js/archive.js"></script>
 
 
 

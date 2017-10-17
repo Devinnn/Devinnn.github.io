@@ -4,12 +4,12 @@
 
     
   <url>
-    <loc>https://devinnn.github.io/article/2017/10/03/markdown/</loc>
-    <lastmod>2017-10-08T06:22:55.098Z</lastmod>
+    <loc>https://devinnn.github.io/article/2017/10/08/markdown%E6%A0%B7%E5%BC%8F%E9%A2%84%E8%A7%88/</loc>
+    <lastmod>2017-10-17T03:29:53.285Z</lastmod>
     <data>
         <display>
-        <title>markdown样式预览</title>
-        <pubTime>2017-10-03T06:00:00.000Z</pubTime>
+        <title>markdown样式预览（测试）</title>
+        <pubTime>2017-10-08T06:12:34.000Z</pubTime>
         
         <tag>markdown样式预览</tag>
          
@@ -24,55 +24,36 @@
 
     
   <url>
-    <loc>https://devinnn.github.io/article/2017/09/23/%E6%8A%80%E6%9C%AF6/</loc>
-    <lastmod>2017-10-08T06:22:46.694Z</lastmod>
+    <loc>https://devinnn.github.io/article/2017/10/17/%E5%89%8D%E7%AB%AF%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D%E6%80%BB%E7%BB%93/</loc>
+    <lastmod>2017-10-17T03:28:58.167Z</lastmod>
     <data>
         <display>
-        <title>墨尔本的思考</title>
-        <pubTime>2017-09-23T07:08:44.000Z</pubTime>
+        <title>前端移动端适配总结</title>
+        <pubTime>2017-10-17T03:26:56.000Z</pubTime>
         
-        <tag>简约1</tag>
+        <tag>flexible布局</tag>
          
-        <tag>简约2</tag>
-         
-        <tag>简约3</tag>
-         
-        <tag>简约4</tag>
-         
-        <tag>简约5</tag>
-         
-        <tag>简约6</tag>
-         
-        <tag>简约7</tag>
-         
-        <tag>简约8</tag>
-         
-        <tag>简约9</tag>
-         
-        <tag>简约10</tag>
+        <tag>CSS</tag>
          
          
            
              
-              <breadCrumb title="问答" url="https://devinnn.github.io/categories/%E9%97%AE%E7%AD%94/"/>
+              <breadCrumb title="移动端适配" url="https://devinnn.github.io/categories/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E9%80%82%E9%85%8D/"/>
           
         </display>
     </data>
     </url>
 
     
-    
   <url>
-    <loc>https://devinnn.github.io/article/2017/08/23/%E6%8A%80%E6%9C%AF5/</loc>
-    <lastmod>2017-09-19T13:36:37.392Z</lastmod>
+    <loc>https://devinnn.github.io/article/2017/08/23/JavaScript%E5%8E%9F%E5%9E%8B%E9%93%BE/</loc>
+    <lastmod>2017-10-17T03:22:54.310Z</lastmod>
     <data>
         <display>
         <title>JavaScript之原型链的解读</title>
         <pubTime>2017-08-23T07:08:53.000Z</pubTime>
         
         <tag>JavaScript</tag>
-         
-        <tag>123</tag>
          
          
            
@@ -86,83 +67,4 @@
     
     
     
-  <url>
-    <loc>https://devinnn.github.io/article/2017/07/23/%E6%8A%80%E6%9C%AF4/</loc>
-    <lastmod>2017-09-14T13:14:01.101Z</lastmod>
-    <data>
-        <display>
-        <title>墨尔本的思考</title>
-        <pubTime>2017-07-23T07:08:44.000Z</pubTime>
-        
-        <tag>简约</tag>
-         
-         
-           
-             
-              <breadCrumb title="问答" url="https://devinnn.github.io/categories/%E9%97%AE%E7%AD%94/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://devinnn.github.io/article/2015/08/20/%E6%8A%80%E6%9C%AF2/</loc>
-    <lastmod>2017-09-14T13:13:57.558Z</lastmod>
-    <data>
-        <display>
-        <title>我叫周绪北不叫周绪南</title>
-        <pubTime>2015-08-20T07:31:27.000Z</pubTime>
-        
-        <tag>闲聊</tag>
-         
-         
-           
-             
-              <breadCrumb title="测试2" url="https://devinnn.github.io/categories/%E6%B5%8B%E8%AF%952/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://devinnn.github.io/article/2016/08/20/%E6%8A%80%E6%9C%AF1/</loc>
-    <lastmod>2017-09-14T12:06:37.299Z</lastmod>
-    <data>
-        <display>
-        <title>hey这只是一个测试代码</title>
-        <pubTime>2016-08-20T07:31:13.000Z</pubTime>
-        
-        <tag>闲聊</tag>
-         
-         
-           
-             
-              <breadCrumb title="测试" url="https://devinnn.github.io/categories/%E6%B5%8B%E8%AF%95/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://devinnn.github.io/article/2016/08/23/%E6%8A%80%E6%9C%AF3/</loc>
-    <lastmod>2017-09-12T13:11:09.819Z</lastmod>
-    <data>
-        <display>
-        <title>你妈叫你回家吃饭啦</title>
-        <pubTime>2016-08-23T07:08:38.000Z</pubTime>
-        
-        <tag>详细</tag>
-         
-         
-           
-             
-              <breadCrumb title="书单" url="https://devinnn.github.io/categories/%E4%B9%A6%E5%8D%95/"/>
-          
-        </display>
-    </data>
-    </url>
-
 </urlset>
