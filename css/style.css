@@ -1011,7 +1011,9 @@ footer {
           -moz-transition: all 0.4s ease;
           display: none; } }
     .home .left-wrap .article .post-entry p {
-      min-height: 5rem;
+      max-height: 5rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
       margin: 0 0 0 20%;
       font-size: 0.9375rem;
       color: #232323;
