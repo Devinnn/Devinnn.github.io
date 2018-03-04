@@ -2,7 +2,7 @@
 @import url(/assets/css/normalize.css);
 @import 'https://fonts.cat.net/css?family=Ubuntu';
 @import 'https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css';
-@import '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/solarized-dark.min.css';
+@import url(/assets/css/solarized-dark.min.css);
 @import url(/assets/css/animate.min.css);
 @import url(/assets/css/jquery.fancybox.min.css);
 /* 定义宽度 */
@@ -1535,7 +1535,7 @@ code {
     .post .post-content em {
       border-bottom: 0.125rem dotted;
       font-style: normal;
-      padding-bottom: .05em; }
+      padding-bottom: .05rem; }
 
 .right-wrap .toc-content {
   width: 290px;
@@ -1592,6 +1592,7 @@ code {
     opacity: 0.8; }
 
 .box-shadow {
+  position: relative;
   height: 5px;
   overflow: hidden;
   background: url("/assets/image/feed_btm.png") repeat-x 0 -39px; }

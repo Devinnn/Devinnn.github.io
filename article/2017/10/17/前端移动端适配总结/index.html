@@ -159,6 +159,7 @@ body {
 <pre><code>&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot;&gt;
 </code></pre><p>然而，这段代码其实也并不完美，在IE浏览器中，由于横屏竖屏的切换会对其造成影响，为了解决这个兼容性的问题，最后再加上一句，就有了现在的：</p>
 <pre><code>&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;&gt;
+
 </code></pre><p><code>width=device-width</code> 这句代码可以把布局视口设置成为浏览器（屏幕）的宽度。</p>
 <p><code>initial-scale=1</code> 的意思是初始缩放的比例是1，使用它的时候，同时也会将布局视口的尺寸设置为缩放后的尺寸。而缩放的尺寸就是基于屏幕的宽度来的，也就起到了和<code>width=device-width</code>同样的效果。</p>
 <p>另外，值得一提的是，我们在进行媒体查询的时候，查询的宽度值其实也是布局视口的宽度值。</p>
@@ -189,7 +190,7 @@ heigth: 2px;
 <p>很明显，在普通屏幕下，200×300的<code>img</code>标签，所对应的物理像素个数就是200×300个，而两倍图片的位图像素个数则是200x300x4，所以就出现一个物理像素点对应4个位图像素点，所以它的取色也只能通过一定的算法进行缩减，显示结果就是一张只有原图像素总数四分之一，肉眼看上去虽然图片不会模糊，但是会觉得有点色差。（其实就是模糊的逆向过程）</p>
 <p>用图片来表示就是：</p>
 <p><img src="http://oxybu3xjd.bkt.clouddn.com/1508220171.png" alt="image"></p>
-<p>这里摘取了网上一篇<a href="http://mobile.51cto.com/web-484304.htm" target="_blank" rel="external">博文</a>的demo来阐述上面所说的问题。</p>
+<p>这里摘取了网上一篇<a href="http://mobile.51cto.com/web-484304.htm" target="_blank" rel="noopener">博文</a>的demo来阐述上面所说的问题。</p>
 <p><img src="http://oxybu3xjd.bkt.clouddn.com/1508220182.png" alt="image"></p>
 <p>以上是一张100x100的图片，分别放在了100x100，50x50，25x25的容器中，在retina屏幕下面的显示效果。</p>
 <p>通过取色器放大镜可以看出边界像素点的差别：</p>
@@ -197,7 +198,7 @@ heigth: 2px;
 <p>在图二中，图片正常，很清晰。</p>
 <p>在图三中，边界像素点就近取色，色值介于红白之间，偏浓，图片看上去有色差。</p>
 <h3 id="手淘团队flexible-js布局"><a href="#手淘团队flexible-js布局" class="headerlink" title="手淘团队flexible.js布局"></a>手淘团队flexible.js布局</h3><p>现今，适配手机端的传统rem布局已经逐步被手淘团队的一套flexible布局代替。</p>
-<p>具体的实现方式以及细节这里也不铺开来说，具体参考w3cplus的一篇<a href="http://www.w3cplus.com/mobile/lib-flexible-for-html5-layout.html" target="_blank" rel="external">文章</a>，很容易读懂和理解。</p>
+<p>具体的实现方式以及细节这里也不铺开来说，具体参考w3cplus的一篇<a href="http://www.w3cplus.com/mobile/lib-flexible-for-html5-layout.html" target="_blank" rel="noopener">文章</a>，很容易读懂和理解。</p>
 <p>这里我更想分析一下flexible.js做法的意义和原因。</p>
 <p>读过文章之后，相信大家应该对整个开发适配的流程比较熟悉了。</p>
 <p>假设现在要适配一个iphone6的设备。上面已经说过了iphone6的各个参数，这里不再赘述，需要的自行上移查看。</p>
@@ -244,9 +245,9 @@ heigth: 2px;
 <p>文章有借鉴，借鉴的链接都会在这里放出来。</p>
 <p>前辈们的经验和知识很宝贵，我们需要做的，是站在巨人的肩膀上，去提炼这些东西，有自己更好的理解、思考和开拓新知识面。</p>
 <p>相关链接：</p>
-<p>移动端适配方案（主要讲解的是移动端视口方面的知识）：<br><a href="https://segmentfault.com/a/1190000004336869" target="_blank" rel="external">https://segmentfault.com/a/1190000004336869</a><br><a href="https://segmentfault.com/a/1190000004358316" target="_blank" rel="external">https://segmentfault.com/a/1190000004358316</a></p>
-<p>Retina屏幕下模糊的由来：<br><a href="http://mobile.51cto.com/web-484304.htm" target="_blank" rel="external">http://mobile.51cto.com/web-484304.htm</a></p>
-<p>手淘flexible.js布局：<br><a href="http://www.w3cplus.com/mobile/lib-flexible-for-html5-layout.html" target="_blank" rel="external">http://www.w3cplus.com/mobile/lib-flexible-for-html5-layout.html</a></p>
+<p>移动端适配方案（主要讲解的是移动端视口方面的知识）：<br><a href="https://segmentfault.com/a/1190000004336869" target="_blank" rel="noopener">https://segmentfault.com/a/1190000004336869</a><br><a href="https://segmentfault.com/a/1190000004358316" target="_blank" rel="noopener">https://segmentfault.com/a/1190000004358316</a></p>
+<p>Retina屏幕下模糊的由来：<br><a href="http://mobile.51cto.com/web-484304.htm" target="_blank" rel="noopener">http://mobile.51cto.com/web-484304.htm</a></p>
+<p>手淘flexible.js布局：<br><a href="http://www.w3cplus.com/mobile/lib-flexible-for-html5-layout.html" target="_blank" rel="noopener">http://www.w3cplus.com/mobile/lib-flexible-for-html5-layout.html</a></p>
 
         </div>
         <div class="box-shadow">
@@ -312,7 +313,7 @@ heigth: 2px;
     <div class="toc-content">
         <div id="toc" class="toc-article">
             <strong class="toc-title">文章目录</strong>
-            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#meta标签到底做了什么事情"><span class="toc-text">meta标签到底做了什么事情</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#几个专有名词和单位"><span class="toc-text">几个专有名词和单位</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PC和移动端不同的视口"><span class="toc-text">PC和移动端不同的视口</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Retina屏幕-amp-普通屏幕，模糊的由来"><span class="toc-text">Retina屏幕&普通屏幕，模糊的由来</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#dpr的具体表现"><span class="toc-text">dpr的具体表现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模糊的产生"><span class="toc-text">模糊的产生</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何解决"><span class="toc-text">如何解决</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他"><span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#手淘团队flexible-js布局"><span class="toc-text">手淘团队flexible.js布局</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#rem布局和字体的处理"><span class="toc-text">rem布局和字体的处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Retina屏幕下的处理与安卓手机的适配"><span class="toc-text">Retina屏幕下的处理与安卓手机的适配</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#响应式与自适应的选择"><span class="toc-text">响应式与自适应的选择</span></a></li></ol>
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#meta标签到底做了什么事情"><span class="toc-text">meta标签到底做了什么事情</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#几个专有名词和单位"><span class="toc-text">几个专有名词和单位</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PC和移动端不同的视口"><span class="toc-text">PC和移动端不同的视口</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Retina屏幕-amp-普通屏幕，模糊的由来"><span class="toc-text">Retina屏幕&amp;普通屏幕，模糊的由来</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#dpr的具体表现"><span class="toc-text">dpr的具体表现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模糊的产生"><span class="toc-text">模糊的产生</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何解决"><span class="toc-text">如何解决</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他"><span class="toc-text">其他</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#手淘团队flexible-js布局"><span class="toc-text">手淘团队flexible.js布局</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#rem布局和字体的处理"><span class="toc-text">rem布局和字体的处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Retina屏幕下的处理与安卓手机的适配"><span class="toc-text">Retina屏幕下的处理与安卓手机的适配</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#响应式与自适应的选择"><span class="toc-text">响应式与自适应的选择</span></a></li></ol>
         </div>
     </div>
     
@@ -357,9 +358,9 @@ heigth: 2px;
                     
                     <a href="/categories/JavaScript基础">JavaScript基础</a>
                     
-                    <a href="/categories/移动端适配">移动端适配</a>
-                    
                     <a href="/categories/测试">测试</a>
+                    
+                    <a href="/categories/移动端适配">移动端适配</a>
                     
                  
             </div>
@@ -379,11 +380,11 @@ heigth: 2px;
                     
                     <a href="/tags/JavaScript">JavaScript</a>
                     
+                    <a href="/tags/markdown样式预览">markdown样式预览</a>
+                    
                     <a href="/tags/flexible布局">flexible布局</a>
                     
                     <a href="/tags/CSS">CSS</a>
-                    
-                    <a href="/tags/markdown样式预览">markdown样式预览</a>
                     
                 
             </div>
@@ -430,7 +431,7 @@ heigth: 2px;
 
 
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/highlight.js/9.1.0/highlight.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('pre code').each(function(i, block) {

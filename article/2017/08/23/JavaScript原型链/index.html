@@ -166,7 +166,7 @@ console.log(foo(1, 2)) //3
 
 var boo = new Function(&#39;a&#39;, &#39;b&#39;, &#39;return a + b&#39;) //Function大写
 console.log(boo(1,2)) //3
-</code></pre><p>以上，第二种写法出现了大写的<code>Function</code>。（不推荐这么写。因为这是一种创建动态函数的写法，原因参考：<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank" rel="external">https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function</a> ）</p>
+</code></pre><p>以上，第二种写法出现了大写的<code>Function</code>。（不推荐这么写。因为这是一种创建动态函数的写法，原因参考：<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function</a> ）</p>
 <p>从上面的代码可知，函数是被<code>Function</code>创建的。</p>
 <p>所以，<code>function Object</code>是由<code>Function</code>创建的，那么<code>Object.__proto === Function.prototype</code>也就不言而喻了，于是就有下面的一张图。</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/5376626-17cf9135fef993d2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
@@ -491,7 +491,7 @@ b2.speak() //Hello, I am b2.
 <hr>
 <p>😉这是一条可爱的分割线😉。</p>
 <p>以上，就是本次博客的全部内容~（终于结束了）~感谢你耐心的阅读😉<br>第一次写博客，如有理解错误的地方，师请改正😳。</p>
-<p>参考资料：<br>  书籍：《你不知道的JavaScript（上卷）》<br>  博客：<a href="http://www.cnblogs.com/wangfupeng1988/p/4001284.html" target="_blank" rel="external">http://www.cnblogs.com/wangfupeng1988/p/4001284.html</a><br>  博客：<a href="http://www.yangzicong.com/article/1" target="_blank" rel="external">http://www.yangzicong.com/article/1</a></p>
+<p>参考资料：<br>  书籍：《你不知道的JavaScript（上卷）》<br>  博客：<a href="http://www.cnblogs.com/wangfupeng1988/p/4001284.html" target="_blank" rel="noopener">http://www.cnblogs.com/wangfupeng1988/p/4001284.html</a><br>  博客：<a href="http://www.yangzicong.com/article/1" target="_blank" rel="noopener">http://www.yangzicong.com/article/1</a></p>
 
         </div>
         <div class="box-shadow">
@@ -602,9 +602,9 @@ b2.speak() //Hello, I am b2.
                     
                     <a href="/categories/JavaScript基础">JavaScript基础</a>
                     
-                    <a href="/categories/移动端适配">移动端适配</a>
-                    
                     <a href="/categories/测试">测试</a>
+                    
+                    <a href="/categories/移动端适配">移动端适配</a>
                     
                  
             </div>
@@ -624,11 +624,11 @@ b2.speak() //Hello, I am b2.
                     
                     <a href="/tags/JavaScript">JavaScript</a>
                     
+                    <a href="/tags/markdown样式预览">markdown样式预览</a>
+                    
                     <a href="/tags/flexible布局">flexible布局</a>
                     
                     <a href="/tags/CSS">CSS</a>
-                    
-                    <a href="/tags/markdown样式预览">markdown样式预览</a>
                     
                 
             </div>
@@ -675,7 +675,7 @@ b2.speak() //Hello, I am b2.
 
 
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/highlight.js/9.1.0/highlight.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('pre code').each(function(i, block) {
